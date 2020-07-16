@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 public class Calculator {
     public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     public static int inputNumber;
+    public static double diversionResult;
 
     public static void main(String[] args) throws Exception {
         System.out.println("My Calculator\n");
@@ -22,14 +23,22 @@ public class Calculator {
                     System.out.println("\n" + multiplication());
                     break;
                 case 4:
-                    System.out.println("\n" + diversion());
+                    diversionResult = diversion();
+                    if (diversionResult % 1 == 0) {
+                        System.out.println("\n" + (int) diversionResult);
+                    }
+                    else {
+                        System.out.println("\n" + diversionResult);
+                    }
+                    break;
+                case 5:
                     break;
                 default:
                     System.out.println("\n" + "Wrong number - " + inputNumber);
                     System.out.println("Try again\n");
                     reader.readLine();
             }
-            if (!(inputNumber >= 1 && inputNumber <= 4)) {
+            if (!(inputNumber >= 1 && inputNumber <= 5)) {
                 continue;
             }
             if (finish()) {
@@ -44,7 +53,8 @@ public class Calculator {
                 "1) Addition(+)\n" +
                 "2) Subtraction(-)\n" +
                 "3) Multiplication(*)\n" +
-                "4) Diversion(/)");
+                "4) Diversion(/)\n" +
+                "5) Finish");
         return getNumber();
     }
 
@@ -64,7 +74,7 @@ public class Calculator {
     }
 
     public static double diversion() {
-        int[] numbers = twoNumbers();
+        int[] numbers = twoNumbersForDiversion();
         return (numbers[0] * 1.0) / numbers[1];
     }
 
@@ -73,6 +83,18 @@ public class Calculator {
 
         System.out.println("First number");
         numbers[0] = getNumber();
+
+        System.out.println("Second number");
+        numbers[1] = getNumber();
+
+        return numbers;
+    }
+
+    public static int[] twoNumbersForDiversion() {
+        int[] numbers = new int[2];
+
+        System.out.println("First number");
+        numbers[0] = getNumberForDiversion();
 
         System.out.println("Second number");
         numbers[1] = getNumber();
@@ -89,6 +111,25 @@ public class Calculator {
                 loop = false;
             } catch (Exception e) {
                 System.out.println("This is not a number. Try again");
+                loop = true;
+            }
+        } while (loop);
+        return number;
+    }
+
+    public static int getNumberForDiversion() {
+        int number = 0;
+        boolean loop;
+        do {
+            try {
+                number = Integer.parseInt(reader.readLine());
+                loop = false;
+            } catch (Exception e) {
+                System.out.println("This is not a number. Try again");
+                loop = true;
+            }
+            if (number == 0) {
+                System.out.println("0 / number\nMath mistake");
                 loop = true;
             }
         } while (loop);
